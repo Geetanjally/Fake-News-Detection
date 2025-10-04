@@ -18,7 +18,7 @@ ps = PorterStemmer()
 stop_words = set(stopwords.words('english'))
 def preprocess_text(text):
     """Clean, stem, tokenize and pad text (same as training)."""
-    review = re.sub('[^a-zA-Z]', ' ', text)
+    review = re.sub('[^a-zA-Z]', ' ', text["title"][i])
     review = review.lower()
     review = review.split()
     review = [ps.stem(word) for word in review if word not in stopwords]
