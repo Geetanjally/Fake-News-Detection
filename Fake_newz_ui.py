@@ -6,13 +6,6 @@ from nltk.corpus import stopwords
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.text import one_hot
 from tensorflow.keras.preprocessing.sequence import pad_sequences
-
-import streamlit as st
-import tensorflow as tf
-import keras
-st.write("TensorFlow version:", tf.__version__)
-st.write("Keras version:", keras.__version__)
-
 model = load_model("fake_news.keras")
 
 # Vocabulary size and sentence length (same as training)
