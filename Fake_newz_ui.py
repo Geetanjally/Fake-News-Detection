@@ -9,7 +9,8 @@ from nltk.corpus import stopwords
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.text import one_hot
 from tensorflow.keras.preprocessing.sequence import pad_sequences
-model = load_model("fake_news.keras")
+
+model = load_model("fake_news.h5")
 
 # Vocabulary size and sentence length (same as training)
 vocab_size = 5000
