@@ -7,7 +7,7 @@ from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.text import one_hot
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 
-model = load_model("fake_news.h5")
+model = load_model("fake_news.keras")
 
 # Vocabulary size and sentence length (same as training)
 vocab_size = 5000
@@ -15,13 +15,13 @@ sent_length = 50
 
 # PorterStemmer for preprocessing
 ps = PorterStemmer()
-stop_words = set(stopwords.words('english'))
+
 def preprocess_text(text):
     """Clean, stem, tokenize and pad text (same as training)."""
-    review = re.sub('[^a-zA-Z]', ' ', text["title"][i])
+    review = re.sub('[^a-zA-Z]', ' ', text)
     review = review.lower()
     review = review.split()
-    review = [ps.stem(word) for word in review if word not in stopwords]
+    review = [ps.stem(word) for word in review if word not in stopwords.words('english')]
     review = ' '.join(review)
 
     # one-hot encode
