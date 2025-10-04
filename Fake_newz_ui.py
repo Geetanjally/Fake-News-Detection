@@ -15,13 +15,13 @@ sent_length = 50
 
 # PorterStemmer for preprocessing
 ps = PorterStemmer()
-
+stop_words = set(stopwords.words('english'))
 def preprocess_text(text):
     """Clean, stem, tokenize and pad text (same as training)."""
     review = re.sub('[^a-zA-Z]', ' ', text)
     review = review.lower()
     review = review.split()
-    review = [ps.stem(word) for word in review if word not in stopwords.words('english')]
+    review = [ps.stem(word) for word in review if word not in stopwords]
     review = ' '.join(review)
 
     # one-hot encode
