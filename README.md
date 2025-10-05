@@ -10,3 +10,9 @@ This project aims to build a deep learning model that can automatically detect w
 - 📝 **NLP Techniques:** Tokenization, Stopword Removal, Stemming, Padding
 - 🧪 **Model Used:** LSTM (Long Short-Term Memory)
 - 💻 **Deployment:** Streamlit
+
+## 🚀 Live Demo
+
+Try the live Fake News Detection app here:  
+👉 [Live Demo](https://your-app-name.streamlit.app/)
+
