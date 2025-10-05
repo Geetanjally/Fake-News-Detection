@@ -2,15 +2,22 @@ import nltk
 nltk.download('stopwords')
 
 import streamlit as st
+import pickle
 import numpy as np
 import re
 from nltk.stem.porter import PorterStemmer
 from nltk.corpus import stopwords
 from tensorflow.keras.models import load_model
-from tensorflow.keras.preprocessing.text import one_hot
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 
-model = load_model("fake_news.h5")
+@st.cache_resource
+def load_model_and_tokenizer():
+    model = load_model("model.keras")
+    with open("tokenizer.pkl", "rb") as f:
+        tokenizer = pickle.load(f)
+    return model, tokenizer
+
+model, tokenizer = load_model_and_tokenizer()
 
 # Vocabulary size and sentence length (same as training)
 vocab_size = 5000
@@ -18,19 +25,21 @@ sent_length = 50
 
 # PorterStemmer for preprocessing
 ps = PorterStemmer()
+stop_words = set(stopwords.words('english'))
+max_len = 50 
 
-def preprocess_text(text):
-    """Clean, stem, tokenize and pad text (same as training)."""
-    review = re.sub('[^a-zA-Z]', ' ', text)
-    review = review.lower()
-    review = review.split()
-    review = [ps.stem(word) for word in review if word not in stopwords.words('english')]
-    review = ' '.join(review)
+def clean_text(text):
+    text = re.sub('[^a-zA-Z]', ' ', text)
+    text = text.lower()
+    text = text.split()
+    text = [ps.stem(word) for word in text if word not in stop_words]
+    text = ' '.join(text)
+    return text
 
-    # one-hot encode
-    onehot_rep = [one_hot(review, vocab_size)]
-    # pad sequence
-    padded = pad_sequences(onehot_rep, padding="pre", maxlen=sent_length)
+def preprocess_input(text):
+    cleaned = clean_text(text)
+    seq = tokenizer.texts_to_sequences([cleaned])
+    padded = pad_sequences(seq, maxlen=max_len, padding='pre')
     return padded
 
 # Streamlit UI
@@ -48,7 +57,7 @@ user_input = st.text_area("Enter news text here:")
 
 if st.button("Predict"):
     if user_input.strip() != "":
-        processed = preprocess_text(user_input)
+        processed = preprocess_input(user_input)
         prediction = model.predict(processed)[0][0]
 
         if prediction > 0.5:
