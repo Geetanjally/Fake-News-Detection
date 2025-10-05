@@ -6,3 +6,4 @@ tensorflow==2.20.0
 keras==3.11.3
 streamlit
 pickle-mixin
+h5py

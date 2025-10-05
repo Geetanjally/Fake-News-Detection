@@ -12,7 +12,7 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 @st.cache_resource
 def load_model_and_tokenizer():
-    model = load_model("model.keras")
+    model = load_model("fake_news.keras")
     with open("tokenizer.pkl", "rb") as f:
         tokenizer = pickle.load(f)
     return model, tokenizer
